@@ -1,0 +1,21 @@
+{
+    "name": "xjzhang/redis-token",
+    "description": "PHP Token Clie",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zhangxingjia",
+            "email": "xjzhang@hillinsight.com"
+        }
+    ],
+    "minimum-stability": "dev", 
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TokenClient\\": "src/"
+        }
+    }
+}
