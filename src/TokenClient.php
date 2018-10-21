@@ -63,18 +63,34 @@ class TokenClient
     protected $redisExpire = 1000;
 
     /**
+     * $consoleURL
+     */
+    protected $consoleURL;
+
+    /**
+     * $locationService
+     */
+    protected $locationService;
+
+    /**
      * @param RedisInterface $redisHandle redis对象
      * @param string $redisAuth redis密码
-     * @param int $redisDb
+     * @param int    $redisDb
+     * @param string $consoleURL
+     * @param string $locationService
      */
-    public function __construct(RedisInterface $redisHandle, string $redisAuth, int $redisDb)
+    public function __construct(RedisInterface $redisHandle, string $redisAuth, int $redisDb, string $consoleURL, string $locationService)
     {
         $this->redisHandle = $redisHandle;
         $this->redisAuth = $redisAuth;
         $this->redisDb = $redisDb;
         $this->tokenKey = $_COOKIE[self::COOKIE_NAME];
+        $this->consoleURL = $consoleURL;
+        $this->locationService = $locationService;
         if (!empty($this->tokenKey)) {
             $this->redisKey = $this->redisTokenPrefix . self::DELIMITER_COLON . $this->tokenKey;
+        } else {
+            $this->locationConsoleUrl();
         }
     }
 
@@ -96,6 +112,9 @@ class TokenClient
         }
         $data = $this->redisHandle->get($this->redisKey);
         $this->tokenData = json_decode($data, true);
+        if (empty($this->tokenData)) {
+            $this->locationConsoleUrl();
+        }
         return $this;
     }
 
@@ -167,5 +186,42 @@ class TokenClient
 
     public function getProperty($property) {
         return $this->$property;
+    }
+
+    /**
+     *Location to console page
+     */
+    public function locationConsoleUrl()
+    {
+        $query_arr = [
+            'service' => $this->locationService,
+        ];
+        $consoleUrl = self::buildQueryURL($this->consoleURL, $query_arr);
+        header('Location:' . $consoleUrl);
+        exit;
+    }
+    
+    /**
+     * @param string $locationService
+     */
+    public function setLocationService(string $locationService)
+    {
+        $this->locationService = trim($locationService, '/');
+        return $this;
+    }
+
+    /**
+     * @param string $url
+     * @param array $query
+     * @return string
+     */
+    public static function buildQueryURL(string $url, array $query)
+    {
+        $query_str = '';
+        foreach ($query as $k => $v) {
+            $query_str .= $k . '=' . urlencode($v) . '&';
+        }
+        $query_str = rtrim($query_str, '&');
+        return $url . '?' . $query_str;
     }
 }
