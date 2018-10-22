@@ -113,6 +113,9 @@ class TokenClient
         $data = $this->redisHandle->get($this->redisKey);
         $this->tokenData = json_decode($data, true);
         if (empty($this->tokenData)) {
+            if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                return $this;
+            }
             $this->locationConsoleUrl();
         }
         return $this;
