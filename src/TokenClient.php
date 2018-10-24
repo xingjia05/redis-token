@@ -79,7 +79,7 @@ class TokenClient
      * @param string $consoleURL
      * @param string $locationService
      */
-    public function __construct(RedisInterface $redisHandle, string $redisAuth, int $redisDb, string $consoleURL, string $locationService)
+    public function __construct(RedisInterface $redisHandle, $redisAuth, $redisDb, $consoleURL, $locationService)
     {
         $this->redisHandle = $redisHandle;
         $this->redisAuth = $redisAuth;

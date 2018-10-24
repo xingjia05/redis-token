@@ -13,7 +13,7 @@ interface RedisInterface {
      * @param string $key
      * @return string
      */
-    public function get(string $key): string;
+    public function get(string $key);
 
     /**
      * redis expire
@@ -21,21 +21,21 @@ interface RedisInterface {
      * @param int    $timeSec
      * @return int
      */
-    public function expire(string $key, int $timeSec): int;
+    public function expire(string $key, int $timeSec);
 
     /**
      * redis auth
      * @param string $password
      * @return bool
      */
-    public function auth(string $password): bool;
+    public function auth(string $password);
 
     /**
      * redis db
      * @param int $db
      * @return bool
      */
-    public function select(int $db): bool;
+    public function select(int $db);
 
     /**
      * redis db
