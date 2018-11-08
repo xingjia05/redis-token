@@ -14,12 +14,12 @@ class TokenClient
     /**
      * cookie name
      */
-    private const COOKIE_NAME = 'st';
+    const COOKIE_NAME = 'st';
 
     /**
      * redis key 分隔符:(:)
      */
-    private const DELIMITER_COLON = ':';
+    const DELIMITER_COLON = ':';
 
     /**
      * jwt的唯一身份标识，主要用来作为一次性token
