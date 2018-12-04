@@ -60,7 +60,7 @@ class TokenClient
     /**
      * $redisExpire
      */
-    protected $redisExpire = 1000;
+    protected $redisExpire = 86400;
 
     /**
      * $consoleURL
@@ -101,9 +101,6 @@ class TokenClient
      */
     public function get()
     {
-        if (empty($this->redisKey)) {
-            throw new Exception('cahce key is null', TokenException::CODE_PARAMS_ERROR);
-        }
         if (!empty($this->redisAuth)) {
             $this->redisHandle->auth($this->redisAuth);
         }
@@ -206,6 +203,7 @@ class TokenClient
     
     /**
      * @param string $locationService
+     * @return TokenClient
      */
     public function setLocationService(string $locationService)
     {
